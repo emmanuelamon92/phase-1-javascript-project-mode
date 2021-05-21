@@ -8,7 +8,6 @@ const randomQuoteButton = document.querySelector('#randomQuoteButton')
 
 //Function to handle user inputed quote fetch
 let userQuoteFetch = () => {
-	// console.log('im in user search')
 	fetch (animeListUrl + userInput.value)
     	.then(response => response.json())
 		.then (animeListArr => nameCharacterSearch(animeListArr))
@@ -19,29 +18,28 @@ let userQuoteFetch = () => {
 }
 //Function to handle random quote fetch
 let randomQuoteFetch = () => {
-	return fetch (randomUrl)
+	fetch (randomUrl)
 		.then(response => response.json())
 		.then(randomQuoteObject => randomQuoteSearch(randomQuoteObject))
 }
 
 //Funtion for searching quotes by anime title
 let nameCharacterSearch = animeListArr => {
-	// //FEATURE 1 (Need to Finish)
-	// //ask user to pick random number between 1-10???????
-	// //then place in animeListArr[....]
-	// const userNumberInput = 0 //ask user for number 1-10
-	// const {anime, character, quote} = animeListArr[userNumberInput];
-	// console.log(anime)
-	// console.log(character)
-	// console.log(quote)
+	//FEATURE 1 (Need to Finish)
+	//ask user to pick random number between 1-10???????
+	//then place in animeListArr[....]
+	const userNumberInput = 0 //ask user for number 1-10
+	const {anime, character, quote} = animeListArr[userNumberInput];
+	console.log(animeListArr[userNumberInput])
+	console.log(`Here is a quote from the character ${character.toUpperCase()} of the anime ${anime.toUpperCase()}: "${quote}"`)
 
-	// //FEATURE 2
-	// //prints all 10 of the quotes
-	// for (const animeObjList of animeListArr) {
-	// 	const {anime, character, quote} = animeObjList;
-	// 	console.log(animeObjList)
-	// 	console.log(`Here is a quote from the character ${character.toUpperCase()} of the anime ${anime.toUpperCase()}: "${quote}"`)		
-	// }
+	//FEATURE 2
+	//prints all 10 of the quotes
+	for (const animeObjList of animeListArr) {
+		const {anime, character, quote} = animeObjList;
+		console.log(animeObjList)
+		console.log(`Here is a quote from the character ${character.toUpperCase()} of the anime ${anime.toUpperCase()}: "${quote}"`)		
+	}
 }
 
 //Function for searching random quotes
