@@ -1,21 +1,22 @@
-const animeListUrl = "https://animechan.vercel.app/api/quotes/anime?title="
+const animeListUrlByTitle = "https://animechan.vercel.app/api/quotes/anime?title="
+const animeListUrlByCharacter = "https://animechan.vercel.app/api/quotes/character?name="
 const randomUrl = "https://animechan.vercel.app/api/random"
-const animeSearchButton = document.querySelector("#animeSearchButton")
+const animeSearchButtonByTitle = document.querySelector("#animeSearchButtonByTitle")
+const animeSearchButtonByCharacter = document.querySelector("#animeSearchButtonByCharacter")
 const userInput = document.querySelector('#user-input')
 const randomQuoteButton = document.querySelector('#randomQuoteButton')
 
-//FUNCTIONS
+//FETCH FUNCTIONS
 
-//Function to handle user inputed quote fetch
-let userQuoteFetch = () => {
-	fetch (animeListUrl + userInput.value)
-    	.then(response => response.json())
-		.then (animeListArr => nameCharacterSearch(animeListArr))
-		.catch(error => {
-			console.error(error)
-			alert('Sorry No Quotes!!')
-		})
+//Function to handle any errors before prompt asks user for information
+function fetchStatusHandler(response) {
+	if (response.status === 200) {
+	  return response;
+	} else {
+	  throw new Error(response.statusText);
+	}
 }
+//
 
 //Function to handle random quote fetch
 let randomQuoteFetch = () => {
@@ -23,55 +24,88 @@ let randomQuoteFetch = () => {
 		.then(response => response.json())
 		.then(randomQuoteObject => randomQuoteSearch(randomQuoteObject))
 }
+//
 
-//Funtion for searching quotes by anime title
-let nameCharacterSearch = animeListArr => {
-	//FEATURE 1
-	//ask user to pick random number between 1-10???????
-	//then place in animeListArr[....]
-	// console.log(animeListArr)
-	const userNumberInput = parseInt(prompt("How many quotes would you like?\nWe have up to 10 you can choose from!!!")) //ask user for number 1-10 for how many quotes they want.
-
-	if (userNumberInput <= 0 || userNumberInput > 10 || typeof userNumberInput !== 'number'){
-		alert(`Not a valid Entry! You typed in "${userNumberInput}". Try again!`)
-		// userNumberInput;
-	} 
-	const {anime, character, quote} = animeListArr[userNumberInput];
-	for (let i = 0; i <= userNumberInput - 1; i++){
-		console.log(animeListArr[i])
-
-	}
-	// console.log(animeListArr[userNumberInput])
-	console.log(`Here is a quote from the character ${character.toUpperCase()} of the anime ${anime.toUpperCase()}: "${quote}"`)
-
-	// //FEATURE 2
-	// //prints all 10 of the quotes
-	// for (const animeObjList of animeListArr) {
-	// 	const {anime, character, quote} = animeObjList;
-	// 	console.log(animeObjList)
-	// 	console.log(`${counter}. Here is a quote from the character ${character.toUpperCase()} of the anime ${anime.toUpperCase()}: "${quote}"`)		
-	// 	counter++
-	// }
-	//FEATURE 3??
-	//event listener using 'key' to loop through quotes?
+//Function to handle user inputed quote if they select to search by title
+let userQuoteFetchByTitle = () => {
+	fetch (animeListUrlByTitle + userInput.value)
+		.then(fetchStatusHandler)
+    	.then(response => response.json())
+		.then (animeListArr => userQuoteSearch(animeListArr))
+		.catch( () => {
+			alert('Sorry No Quotes!!')
+		})
 }
-let counter = 1
+//
 
+//Function to handle user inputed quote if they select to search by character
+let userQuoteFetchByCharacter = () => {
+	fetch (animeListUrlByCharacter + userInput.value)
+		.then(fetchStatusHandler)
+    	.then(response => response.json())
+		.then (animeListArr => userQuoteSearch(animeListArr))
+		.catch( () => {
+			alert('Sorry No Quotes!!')
+		})
+}
+//
+
+//SEARCH FUNCTIONS
 
 //Function for searching random quotes
-let randomQuoteSearch = randomQuoteObject => {
-	console.log(randomQuoteObject)
-	const {anime, character, quote} = randomQuoteObject;
-	console.log(`Here is a quote from the character ${character.toUpperCase()} of the anime ${anime.toUpperCase()}: "${quote}"`)
+let randomQuoteSearch = randomQuoteObject =>{
+	addQuoteToDom(randomQuoteObject)
 }
+//
 
+//Funtion for searching quotes by title
+let userQuoteSearch = animeListArr => {	
+	//FEATURE - ask user for number 1-10 for how many quotes they want and use to add to DOM 
+	const userNumberInput = parseInt(prompt(`How many quotes would you like?\n
+											We have up to 10 you can choose from!!!`)) 
+	if (userNumberInput <= 0 || userNumberInput > 10 || typeof userNumberInput !== 'number'){
+		alert(`Not a valid Entry! You typed in "${userNumberInput}". Try again!`)
+	}
+	addQuotesToDom(animeListArr, userNumberInput)
+	//
+}
+//
+
+//DOM MANIPULATION FUNCTIONS
+
+//Function to add quotes to DOM
+let addQuotesToDom = (animeListArr, userNumberInput) => {
+	if(typeof userNumberInput === 'number'){
+		for (let i = 0; i <= userNumberInput - 1; i++){
+			const {anime, character, quote} = animeListArr[i]
+			console.log(animeListArr[i])
+			console.log(`${counter}. Here is a quote from the character ${character.toUpperCase()}
+of the anime ${anime.toUpperCase()}: "${quote}"`)
+			counter++
+		}
+	}
+}
+let counter = 1
+//
+
+//Function to add random Quote to DOM
+let addQuoteToDom = (randomQuoteObject) => {
+	const {anime, character, quote} = randomQuoteObject;
+	console.log(`Here is a quote from the character ${character.toUpperCase()}
+of the anime ${anime.toUpperCase()}: "${quote}"`)
+}
+//
 
 //EVENT LISTENERS
 
-//Event listener for clicking submit button for form
-animeSearchButton.addEventListener('click', e => {e.preventDefault(); return userQuoteFetch();})
+//Event listener for clicking to get quotes by title
+animeSearchButtonByTitle.addEventListener('click', e => {e.preventDefault(); return userQuoteFetchByTitle();})
+//
 
-//Event listener for clicking random quote
+//Event listener for clicking to get quotes by character
+animeSearchButtonByCharacter.addEventListener('click', e => {e.preventDefault(); return userQuoteFetchByCharacter();})
+//
+
+//Event listener for clicking to get random quote
 randomQuoteButton.addEventListener('click', () => randomQuoteFetch())
-
-//Event listener using 'key' to loop through quotes???
+//

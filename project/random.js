@@ -5,6 +5,14 @@
 // const url3 = "https://animechan.vercel.app/api/quotes"
 // const url4 = "https://animechan.vercel.app/api/quotes/character?name=saitama"
 
+//HANDLES ERROR AT FETCH (404 ERROR)
+// let fetchStatusHandler = response => {
+// 	if (response.status !== 200) {
+// 	  return response;
+// 	} else {
+// 	  throw new Error(response.statusText);
+// 	}
+// }
 
 // fetch (url1)
 //     .then(response => response.json())
@@ -29,7 +37,15 @@
 // 	.then (animeArr => console.log(animeArr))	
 // 	})
 
-
+// let nameCharacterSearch = animeListArr => {
+	// //FEATURE 2 - prints all 10 of the quotes
+	// for (const animeObjList of animeListArr) {
+	// 	const {anime, character, quote} = animeObjList;
+	// 	console.log(animeObjList)
+	// 	console.log(`${counter}. Here is a quote from the character ${character.toUpperCase()} of the anime ${anime.toUpperCase()}: "${quote}"`)		
+	// 	counter++
+	// }
+// }
 
 // search with name
 // file is downloaded
