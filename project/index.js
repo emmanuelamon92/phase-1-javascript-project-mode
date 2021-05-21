@@ -38,16 +38,21 @@ let nameCharacterSearch = animeListArr => {
 	for (const animeObjList of animeListArr) {
 		const {anime, character, quote} = animeObjList;
 		console.log(animeObjList)
-		console.log(`Here is a quote from the character ${character.toUpperCase()} of the anime ${anime.toUpperCase()}: "${quote}"`)		
-	}
+		console.log(`${counter}. Here is a quote from the character ${character.toUpperCase()} of the anime ${anime.toUpperCase()}: "${quote}"`)		
+		counter++
+	}	
 }
+let counter = 1
+
 
 //Function for searching random quotes
 let randomQuoteSearch = randomQuoteObject => {
 	console.log(randomQuoteObject)
 	const {anime, character, quote} = randomQuoteObject;
-	console.log(`Here is a quote from the character ${character.toUpperCase()} of the anime ${anime.toUpperCase()}: "${quote}"`)
+	console.log(`${counter}. Here is a quote from the character ${character.toUpperCase()} of the anime ${anime.toUpperCase()}: "${quote}"`)
+	
 }
+
 
 //EVENT LISTENERS
 
