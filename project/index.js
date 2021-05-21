@@ -16,6 +16,7 @@ let userQuoteFetch = () => {
 			alert('Sorry No Quotes!!')
 		})
 }
+
 //Function to handle random quote fetch
 let randomQuoteFetch = () => {
 	fetch (randomUrl)
@@ -25,22 +26,34 @@ let randomQuoteFetch = () => {
 
 //Funtion for searching quotes by anime title
 let nameCharacterSearch = animeListArr => {
-	//FEATURE 1 (Need to Finish)
+	//FEATURE 1
 	//ask user to pick random number between 1-10???????
 	//then place in animeListArr[....]
-	const userNumberInput = 0 //ask user for number 1-10
+	// console.log(animeListArr)
+	const userNumberInput = parseInt(prompt("How many quotes would you like?\nWe have up to 10 you can choose from!!!")) //ask user for number 1-10 for how many quotes they want.
+
+	if (userNumberInput <= 0 || userNumberInput > 10 || typeof userNumberInput !== 'number'){
+		alert(`Not a valid Entry! You typed in "${userNumberInput}". Try again!`)
+		// userNumberInput;
+	} 
 	const {anime, character, quote} = animeListArr[userNumberInput];
-	console.log(animeListArr[userNumberInput])
+	for (let i = 0; i <= userNumberInput - 1; i++){
+		console.log(animeListArr[i])
+
+	}
+	// console.log(animeListArr[userNumberInput])
 	console.log(`Here is a quote from the character ${character.toUpperCase()} of the anime ${anime.toUpperCase()}: "${quote}"`)
 
-	//FEATURE 2
-	//prints all 10 of the quotes
-	for (const animeObjList of animeListArr) {
-		const {anime, character, quote} = animeObjList;
-		console.log(animeObjList)
-		console.log(`${counter}. Here is a quote from the character ${character.toUpperCase()} of the anime ${anime.toUpperCase()}: "${quote}"`)		
-		counter++
-	}	
+	// //FEATURE 2
+	// //prints all 10 of the quotes
+	// for (const animeObjList of animeListArr) {
+	// 	const {anime, character, quote} = animeObjList;
+	// 	console.log(animeObjList)
+	// 	console.log(`${counter}. Here is a quote from the character ${character.toUpperCase()} of the anime ${anime.toUpperCase()}: "${quote}"`)		
+	// 	counter++
+	// }
+	//FEATURE 3??
+	//event listener using 'key' to loop through quotes?
 }
 let counter = 1
 
@@ -49,8 +62,7 @@ let counter = 1
 let randomQuoteSearch = randomQuoteObject => {
 	console.log(randomQuoteObject)
 	const {anime, character, quote} = randomQuoteObject;
-	console.log(`${counter}. Here is a quote from the character ${character.toUpperCase()} of the anime ${anime.toUpperCase()}: "${quote}"`)
-	
+	console.log(`Here is a quote from the character ${character.toUpperCase()} of the anime ${anime.toUpperCase()}: "${quote}"`)
 }
 
 
@@ -61,3 +73,5 @@ animeSearchButton.addEventListener('click', e => {e.preventDefault(); return use
 
 //Event listener for clicking random quote
 randomQuoteButton.addEventListener('click', () => randomQuoteFetch())
+
+//Event listener using 'key' to loop through quotes???
