@@ -7,8 +7,6 @@ const randomQuoteButton = document.querySelector('#randomQuoteButton')
 const searchResults = document.querySelector('.searchResults')
 const fragment = document.createDocumentFragment();
 
-
-
 //FETCH FUNCTIONS
 
 //Function to handle any errors before prompt asks user for information
@@ -79,6 +77,7 @@ We have up to ${animeListArr.length} you can choose from!!!`))
 
 //DOM MANIPULATION FUNCTIONS
 let counter = 1
+let listCounter = 1
 
 //Function to add quotes to DOM
 let addSearchQuotesToDom = (animeListArr, userNumberInput) => {
@@ -95,10 +94,13 @@ let addSearchQuotesToDom = (animeListArr, userNumberInput) => {
 			//
 
 			//creatine the li element
+			listCounter = 1;
 			for (const key in animeInfoObj){
 				const li = document.createElement('li')
-				li.textContent = `${key}: ${animeInfoObj[key]}`;
+				li.id = `list${listCounter}`
+				li.textContent = `${animeInfoObj[key]}`;
 				fragment.append(li)
+				listCounter++
 			}
 			ulQuoteCard.append(fragment)
 			//
@@ -121,10 +123,13 @@ let addRandomQuoteToDom = (randomQuoteObject) => {
 	//
 
 	//creatine the li element
+	listCounter = 1
 	for (const key in animeInfoObj){
 		const li = document.createElement('li')
-		li.textContent = `${key}: ${animeInfoObj[key]}`;
+		li.id = `list${listCounter}`
+		li.textContent = `${animeInfoObj[key]}`;
 		fragment.append(li)
+		listCounter++
 	}
 	ulQuoteCard.append(fragment)
 	//
