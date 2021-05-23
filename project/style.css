@@ -6,6 +6,11 @@ body{
     align-items: center;
     justify-content: center;
 }
+#removeQuotesButton {
+    color: red;
+    border: 2px solid red;
+    border-radius: 5%;
+}
 .searchResults {
     margin: 10px 25%;
 }

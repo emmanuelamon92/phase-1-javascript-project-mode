@@ -4,7 +4,9 @@ const randomUrl = "https://animechan.vercel.app/api/random"
 const animeSearchButtonByTitle = document.querySelector("#animeSearchButtonByTitle")
 const animeSearchButtonByCharacter = document.querySelector("#animeSearchButtonByCharacter")
 const randomQuoteButton = document.querySelector('#randomQuoteButton')
+const removeQuotesButton = document.querySelector('#removeQuotesButton')
 const searchResults = document.querySelector('.searchResults')
+
 const fragment = document.createDocumentFragment();
 
 //FETCH FUNCTIONS
@@ -35,7 +37,7 @@ let userQuoteFetchByTitle = () => {
     	.then(response => response.json())
 		.then (animeListArr => userQuoteSearch(animeListArr))
 		.catch( () => {
-			alert('Sorry No Quotes Available!! Title')
+			alert('Sorry No Quotes Available!!')
 		})
 }
 //
@@ -49,7 +51,7 @@ let userQuoteFetchByCharacter = () => {
 		.then (animeListArr => userQuoteSearch(animeListArr))
 		.catch( () => {
 			// debugger;
-			alert('Sorry No Quotes Available!! Character')
+			alert('Sorry No Quotes Available!!')
 		})
 }
 //
@@ -76,12 +78,16 @@ We have up to ${animeListArr.length} you can choose from!!!`))
 //
 
 //DOM MANIPULATION FUNCTIONS
+
 let counter = 1
 let listCounter = 1
 
 //Function to add quotes to DOM
 let addSearchQuotesToDom = (animeListArr, userNumberInput) => {
 	if(typeof userNumberInput === 'number'){
+		const quoteCardContainer = document.createElement('div')
+		quoteCardContainer.id = 'quoteCardContainer'
+		searchResults.append(quoteCardContainer)
 
 		for (let i = 0; i <= userNumberInput - 1; i++){
 			const {anime, character, quote} = animeListArr[i]
@@ -90,7 +96,7 @@ let addSearchQuotesToDom = (animeListArr, userNumberInput) => {
 			//creating the ul element
 			const ulQuoteCard = document.createElement('ul')
 			ulQuoteCard.id = `quoteCardId${counter}`;
-			searchResults.append(ulQuoteCard)
+			quoteCardContainer.append(ulQuoteCard)
 			//
 
 			//creatine the li element
@@ -103,8 +109,11 @@ let addSearchQuotesToDom = (animeListArr, userNumberInput) => {
 				listCounter++
 			}
 			ulQuoteCard.append(fragment)
+			//Event listener to remove all quotes
+			removeQuotesButton.addEventListener('click', () => {
+				quoteCardContainer.remove()
+			})
 			//
-
 			counter++
 		}
 	}
@@ -113,13 +122,17 @@ let addSearchQuotesToDom = (animeListArr, userNumberInput) => {
 
 //Function to add random Quote to DOM
 let addRandomQuoteToDom = (randomQuoteObject) => {
+	const quoteCardContainer = document.createElement('div')
+	quoteCardContainer.id = 'quoteCardContainer'
+	searchResults.append(quoteCardContainer)
+
 	const {anime, character, quote} = randomQuoteObject;
 	const animeInfoObj = {'Title': anime,'Character': character,'Quote': quote}
-
+	
 	//creating the ul element
 	const ulQuoteCard = document.createElement('ul')
 	ulQuoteCard.id = `quoteCardId${counter}`;
-	searchResults.append(ulQuoteCard)
+	quoteCardContainer.append(ulQuoteCard)
 	//
 
 	//creatine the li element
@@ -132,6 +145,10 @@ let addRandomQuoteToDom = (randomQuoteObject) => {
 		listCounter++
 	}
 	ulQuoteCard.append(fragment)
+	//Event listener to remove all quotes
+	removeQuotesButton.addEventListener('click', () => {
+		quoteCardContainer.remove()
+	})
 	//
 
 // 	console.log(`${counter}. Here is a quote from the character ${character.toUpperCase()}
@@ -153,3 +170,6 @@ animeSearchButtonByCharacter.addEventListener('click', e => {e.preventDefault();
 //Event listener for clicking to get random quote
 randomQuoteButton.addEventListener('click', () => randomQuoteFetch())
 //
+
+//Event listener to clear DOM
+// removeQuotesButton.addEventListener('click', () => removeAllQuotes())
