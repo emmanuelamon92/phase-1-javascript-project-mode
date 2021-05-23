@@ -14,6 +14,9 @@
 // 	}
 // }
 
+// console.log(`${counter}. Here is a quote from the character ${character.toUpperCase()}
+// of the anime ${anime.toUpperCase()}: "${quote}"`)
+
 // searchResults.innerHTML += 
 			// `<ul class="quoteCard${counter}">
 			// 	<li>Title: ${anime}</li>
