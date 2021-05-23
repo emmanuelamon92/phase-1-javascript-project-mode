@@ -3,8 +3,11 @@ const animeListUrlByCharacter = "https://animechan.vercel.app/api/quotes/charact
 const randomUrl = "https://animechan.vercel.app/api/random"
 const animeSearchButtonByTitle = document.querySelector("#animeSearchButtonByTitle")
 const animeSearchButtonByCharacter = document.querySelector("#animeSearchButtonByCharacter")
-const userInput = document.querySelector('#user-input')
 const randomQuoteButton = document.querySelector('#randomQuoteButton')
+const searchResults = document.querySelector('.searchResults')
+const fragment = document.createDocumentFragment();
+
+
 
 //FETCH FUNCTIONS
 
@@ -28,24 +31,27 @@ let randomQuoteFetch = () => {
 
 //Function to handle user inputed quote if they select to search by title
 let userQuoteFetchByTitle = () => {
-	fetch (animeListUrlByTitle + userInput.value)
+	const userInputTitle = prompt('What anime would you like a quote from?')
+	fetch (animeListUrlByTitle + userInputTitle)
 		.then(fetchStatusHandler)
     	.then(response => response.json())
 		.then (animeListArr => userQuoteSearch(animeListArr))
 		.catch( () => {
-			alert('Sorry No Quotes!!')
+			alert('Sorry No Quotes Available!! Title')
 		})
 }
 //
 
 //Function to handle user inputed quote if they select to search by character
 let userQuoteFetchByCharacter = () => {
-	fetch (animeListUrlByCharacter + userInput.value)
+	const userInputCharacter = prompt('Which anime character would you like a quote from?')
+	fetch (animeListUrlByCharacter + userInputCharacter)
 		.then(fetchStatusHandler)
     	.then(response => response.json())
 		.then (animeListArr => userQuoteSearch(animeListArr))
 		.catch( () => {
-			alert('Sorry No Quotes!!')
+			// debugger;
+			alert('Sorry No Quotes Available!! Character')
 		})
 }
 //
@@ -53,46 +59,79 @@ let userQuoteFetchByCharacter = () => {
 //SEARCH FUNCTIONS
 
 //Function for searching random quotes
-let randomQuoteSearch = randomQuoteObject =>{
-	addQuoteToDom(randomQuoteObject)
+let randomQuoteSearch = randomQuoteObject => {
+	addRandomQuoteToDom(randomQuoteObject)
 }
 //
 
 //Funtion for searching quotes by title
-let userQuoteSearch = animeListArr => {	
-	//FEATURE - ask user for number 1-10 for how many quotes they want and use to add to DOM 
+let userQuoteSearch = animeListArr => {
+	//FEATURE - ask user for number 1-10 for how many quotes they want and use to add to DOM
 	const userNumberInput = parseInt(prompt(`How many quotes would you like?\n
-											We have up to 10 you can choose from!!!`)) 
+We have up to ${animeListArr.length} you can choose from!!!`))
 	if (userNumberInput <= 0 || userNumberInput > 10 || typeof userNumberInput !== 'number'){
 		alert(`Not a valid Entry! You typed in "${userNumberInput}". Try again!`)
 	}
-	addQuotesToDom(animeListArr, userNumberInput)
+	addSearchQuotesToDom(animeListArr, userNumberInput)
 	//
 }
 //
 
 //DOM MANIPULATION FUNCTIONS
+let counter = 1
 
 //Function to add quotes to DOM
-let addQuotesToDom = (animeListArr, userNumberInput) => {
+let addSearchQuotesToDom = (animeListArr, userNumberInput) => {
 	if(typeof userNumberInput === 'number'){
+
 		for (let i = 0; i <= userNumberInput - 1; i++){
 			const {anime, character, quote} = animeListArr[i]
-			console.log(animeListArr[i])
-			console.log(`${counter}. Here is a quote from the character ${character.toUpperCase()}
-of the anime ${anime.toUpperCase()}: "${quote}"`)
+			const animeInfoObj = {'Title': anime,'Character': character,'Quote': quote}
+
+			//creating the ul element
+			const ulQuoteCard = document.createElement('ul')
+			ulQuoteCard.id = `quoteCardId${counter}`;
+			searchResults.append(ulQuoteCard)
+			//
+
+			//creatine the li element
+			for (const key in animeInfoObj){
+				const li = document.createElement('li')
+				li.textContent = `${key}: ${animeInfoObj[key]}`;
+				fragment.append(li)
+			}
+			ulQuoteCard.append(fragment)
+			//
+
 			counter++
 		}
 	}
 }
-let counter = 1
 //
 
 //Function to add random Quote to DOM
-let addQuoteToDom = (randomQuoteObject) => {
+let addRandomQuoteToDom = (randomQuoteObject) => {
 	const {anime, character, quote} = randomQuoteObject;
-	console.log(`Here is a quote from the character ${character.toUpperCase()}
-of the anime ${anime.toUpperCase()}: "${quote}"`)
+	const animeInfoObj = {'Title': anime,'Character': character,'Quote': quote}
+
+	//creating the ul element
+	const ulQuoteCard = document.createElement('ul')
+	ulQuoteCard.id = `quoteCardId${counter}`;
+	searchResults.append(ulQuoteCard)
+	//
+
+	//creatine the li element
+	for (const key in animeInfoObj){
+		const li = document.createElement('li')
+		li.textContent = `${key}: ${animeInfoObj[key]}`;
+		fragment.append(li)
+	}
+	ulQuoteCard.append(fragment)
+	//
+
+// 	console.log(`${counter}. Here is a quote from the character ${character.toUpperCase()}
+// of the anime ${anime.toUpperCase()}: "${quote}"`)
+	counter++
 }
 //
 

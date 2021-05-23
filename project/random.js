@@ -14,6 +14,21 @@
 // 	}
 // }
 
+// searchResults.innerHTML += 
+			// `<ul class="quoteCard${counter}">
+			// 	<li>Title: ${anime}</li>
+			// 	<li>Character: ${character}</li>
+			// 	<li>Quote: ${quote}</li>
+			// </ul>`
+
+//const animeInfoArr = [`Title: ${anime}`, `Character: ${character}`, `Quote: ${quote}`]
+// animeInfoArr.forEach(object => {
+// 	const li = document.createElement('li')
+// 	li.textContent = object;
+// 	fragment.append(li)
+// })
+
+
 // fetch (url1)
 //     .then(response => response.json())
 // 	.then (quotes => console.log(quotes))
