@@ -109,18 +109,13 @@ let addSearchQuotesToDom = (animeListArr, userNumberInput) => {
 				listCounter++
 			}
 			ulQuoteCard.append(fragment)
-			//Event listener to remove all quotes
-			removeQuotesButton.addEventListener('click', () => {
-				// const areYouSure = prompt("Are you sure you want to remove the quotes?")
-				if (confirm('Are you sure you want to remove the quotes?')){
-					quoteCardContainer.remove()
-				} else {
-					continue;
-				}
-			})
 			//
 			counter++
 		}
+		//Event listener to remove all quotes
+		removeQuotesButton.addEventListener('click', () => {
+			quoteCardContainer.remove()
+		})
 	}
 }
 //
@@ -150,16 +145,12 @@ let addRandomQuoteToDom = (randomQuoteObject) => {
 		listCounter++
 	}
 	ulQuoteCard.append(fragment)
+	//
 	//Event listener to remove all quotes
 	removeQuotesButton.addEventListener('click', () => {
-		// const areYouSure = prompt("Are you sure you want to remove the quotes?")
-		if (confirm('Are you sure you want to remove the quotes?')){
-			quoteCardContainer.remove()
-		}
-		// quoteCardContainer.remove()
+		quoteCardContainer.remove()
 	})
-	//
-
+	
 	counter++
 }
 //
