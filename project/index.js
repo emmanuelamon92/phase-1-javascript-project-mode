@@ -35,7 +35,10 @@ let userQuoteFetchByTitle = () => {
 	fetch (animeListUrlByTitle + userInputTitle)
 		.then(fetchStatusHandler)
     	.then(response => response.json())
-		.then (animeListArr => userQuoteSearch(animeListArr))
+		.then (animeListArr => {
+			animeListArr.sort((a, b) => (a.character > b.character) ? 1 : -1)
+			userQuoteSearch(animeListArr)
+		})
 		.catch( () => {
 			alert('Sorry No Quotes Available!!')
 		})
@@ -71,7 +74,9 @@ let userQuoteSearch = animeListArr => {
 We have up to ${animeListArr.length} you can choose from!!!`))
 	if (userNumberInput <= 0 || userNumberInput > 10 || typeof userNumberInput !== 'number'){
 		alert(`Not a valid Entry! You typed in "${userNumberInput}". Try again!`)
+		return userQuoteSearch
 	}
+
 	addSearchQuotesToDom(animeListArr, userNumberInput)
 	//
 }
@@ -150,7 +155,6 @@ let addRandomQuoteToDom = (randomQuoteObject) => {
 	removeQuotesButton.addEventListener('click', () => {
 		quoteCardContainer.remove()
 	})
-	
 	counter++
 }
 //
